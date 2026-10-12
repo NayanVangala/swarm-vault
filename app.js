@@ -3,12 +3,12 @@
 /* ================= constants ================= */
 const PHASES = ['Propose', 'Cross-examine', 'Judge', 'Finals', 'Synthesize'];
 const KIND_COLORS = {
-  proposer: '#a882ff',
-  attacker: '#e06c5a',
-  auditor: '#4ec9b0',
-  judge: '#e5c07b',
-  champion: '#7ee787',
-  synthesizer: '#f778ba',
+  proposer: '#edeae0',
+  attacker: '#ff4b2e',
+  auditor: '#38bdf8',
+  judge: '#ffb224',
+  champion: '#2fe6a7',
+  synthesizer: '#ff4d8d',
 };
 const KIND_ROLES = {
   proposer: 'Proposer',
@@ -656,7 +656,7 @@ const Graph = (() => {
     if (!W) resize();
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, W, H);
-    ctx.fillStyle = '#191919';
+    ctx.fillStyle = '#070706';
     ctx.fillRect(0, 0, W, H);
     ctx.translate(cam.x, cam.y);
     ctx.scale(cam.k, cam.k);
@@ -666,7 +666,7 @@ const Graph = (() => {
       const a = nodes.get(f), b = nodes.get(t);
       if (!a || !b) continue;
       const active = (a.agent && a.agent.status === 'completed') && b.agent && (b.agent.status === 'running' || b.agent.status === 'completed');
-      ctx.strokeStyle = active ? 'rgba(168,130,255,0.4)' : 'rgba(130,130,130,0.30)';
+      ctx.strokeStyle = active ? 'rgba(201,247,58,0.45)' : 'rgba(150,148,138,0.28)';
       ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
     }
     // nodes
@@ -690,7 +690,7 @@ const Graph = (() => {
       ctx.beginPath();
       ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
       if (a.status === 'pending') {
-        ctx.fillStyle = 'rgba(25,25,25,0.9)';
+        ctx.fillStyle = 'rgba(10,10,9,0.9)';
         ctx.fill();
         ctx.strokeStyle = color;
         ctx.globalAlpha = 0.5;
@@ -698,8 +698,8 @@ const Graph = (() => {
         ctx.stroke();
         ctx.globalAlpha = 1;
       } else if (a.status === 'failed') {
-        ctx.fillStyle = '#e5484d';
-        ctx.shadowColor = '#e5484d'; ctx.shadowBlur = isHover ? 12 : 0;
+        ctx.fillStyle = '#ff4b2e';
+        ctx.shadowColor = '#ff4b2e'; ctx.shadowBlur = isHover ? 12 : 0;
         ctx.fill();
       } else {
         ctx.fillStyle = color;
@@ -719,7 +719,7 @@ const Graph = (() => {
       // labels
       if (cam.k >= 0.72 || isHover || isSel) {
         const label = a.title || a.label;
-        ctx.font = `${isHover || isSel ? 600 : 400} ${11.5 / Math.sqrt(cam.k)}px Inter, sans-serif`;
+        ctx.font = `${isHover || isSel ? 700 : 500} ${11.5 / Math.sqrt(cam.k)}px Archivo, sans-serif`;
         ctx.textAlign = 'center';
         ctx.fillStyle = isHover || isSel ? '#f0f0f0' : 'rgba(200,200,200,0.82)';
         ctx.shadowColor = 'rgba(0,0,0,0.9)';
