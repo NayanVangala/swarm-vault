@@ -1,0 +1,915 @@
+{
+  "runId": "workflow-run-5f935900ceeb417dbc7251b71e369058",
+  "status": "running",
+  "startedAt": 1791826618031,
+  "updatedAt": 1791826618031,
+  "winner": null,
+  "reportMd": null,
+  "agents": [
+    {
+      "id": "propose-efficiency",
+      "label": "Local AI efficiency lab",
+      "phase": "Propose",
+      "kind": "proposer",
+      "status": "running",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "propose-bci",
+      "label": "BCI agent supervision",
+      "phase": "Propose",
+      "kind": "proposer",
+      "status": "running",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "propose-agent-trust",
+      "label": "Agent trust & permissions",
+      "phase": "Propose",
+      "kind": "proposer",
+      "status": "running",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "propose-glasses",
+      "label": "Wearables accessibility",
+      "phase": "Propose",
+      "kind": "proposer",
+      "status": "running",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "propose-markets",
+      "label": "AI x markets",
+      "phase": "Propose",
+      "kind": "proposer",
+      "status": "running",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "propose-edge-systems",
+      "label": "Edge AI systems",
+      "phase": "Propose",
+      "kind": "proposer",
+      "status": "running",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "propose-evals",
+      "label": "Evals & benchmark science",
+      "phase": "Propose",
+      "kind": "proposer",
+      "status": "running",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "propose-interp",
+      "label": "Interpretability, ownable slice",
+      "phase": "Propose",
+      "kind": "proposer",
+      "status": "running",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "propose-security-ml",
+      "label": "Defensive security ML",
+      "phase": "Propose",
+      "kind": "proposer",
+      "status": "running",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "propose-robotics",
+      "label": "Cheap-hardware robot learning",
+      "phase": "Propose",
+      "kind": "proposer",
+      "status": "running",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "propose-data-centric",
+      "label": "Data-centric small models",
+      "phase": "Propose",
+      "kind": "proposer",
+      "status": "running",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "propose-heretic",
+      "label": "Heretic wildcard",
+      "phase": "Propose",
+      "kind": "proposer",
+      "status": "running",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "attack-0",
+      "label": "Attack · proposal 1",
+      "phase": "Cross-examine",
+      "kind": "attacker",
+      "status": "pending",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "feas-0",
+      "label": "Feasibility · proposal 1",
+      "phase": "Cross-examine",
+      "kind": "auditor",
+      "status": "pending",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "attack-1",
+      "label": "Attack · proposal 2",
+      "phase": "Cross-examine",
+      "kind": "attacker",
+      "status": "pending",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "feas-1",
+      "label": "Feasibility · proposal 2",
+      "phase": "Cross-examine",
+      "kind": "auditor",
+      "status": "pending",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "attack-2",
+      "label": "Attack · proposal 3",
+      "phase": "Cross-examine",
+      "kind": "attacker",
+      "status": "pending",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "feas-2",
+      "label": "Feasibility · proposal 3",
+      "phase": "Cross-examine",
+      "kind": "auditor",
+      "status": "pending",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "attack-3",
+      "label": "Attack · proposal 4",
+      "phase": "Cross-examine",
+      "kind": "attacker",
+      "status": "pending",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "feas-3",
+      "label": "Feasibility · proposal 4",
+      "phase": "Cross-examine",
+      "kind": "auditor",
+      "status": "pending",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "attack-4",
+      "label": "Attack · proposal 5",
+      "phase": "Cross-examine",
+      "kind": "attacker",
+      "status": "pending",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "feas-4",
+      "label": "Feasibility · proposal 5",
+      "phase": "Cross-examine",
+      "kind": "auditor",
+      "status": "pending",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "attack-5",
+      "label": "Attack · proposal 6",
+      "phase": "Cross-examine",
+      "kind": "attacker",
+      "status": "pending",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "feas-5",
+      "label": "Feasibility · proposal 6",
+      "phase": "Cross-examine",
+      "kind": "auditor",
+      "status": "pending",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "attack-6",
+      "label": "Attack · proposal 7",
+      "phase": "Cross-examine",
+      "kind": "attacker",
+      "status": "pending",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "feas-6",
+      "label": "Feasibility · proposal 7",
+      "phase": "Cross-examine",
+      "kind": "auditor",
+      "status": "pending",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "attack-7",
+      "label": "Attack · proposal 8",
+      "phase": "Cross-examine",
+      "kind": "attacker",
+      "status": "pending",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "feas-7",
+      "label": "Feasibility · proposal 8",
+      "phase": "Cross-examine",
+      "kind": "auditor",
+      "status": "pending",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "attack-8",
+      "label": "Attack · proposal 9",
+      "phase": "Cross-examine",
+      "kind": "attacker",
+      "status": "pending",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "feas-8",
+      "label": "Feasibility · proposal 9",
+      "phase": "Cross-examine",
+      "kind": "auditor",
+      "status": "pending",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "attack-9",
+      "label": "Attack · proposal 10",
+      "phase": "Cross-examine",
+      "kind": "attacker",
+      "status": "pending",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "feas-9",
+      "label": "Feasibility · proposal 10",
+      "phase": "Cross-examine",
+      "kind": "auditor",
+      "status": "pending",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "attack-10",
+      "label": "Attack · proposal 11",
+      "phase": "Cross-examine",
+      "kind": "attacker",
+      "status": "pending",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "feas-10",
+      "label": "Feasibility · proposal 11",
+      "phase": "Cross-examine",
+      "kind": "auditor",
+      "status": "pending",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "attack-11",
+      "label": "Attack · proposal 12",
+      "phase": "Cross-examine",
+      "kind": "attacker",
+      "status": "pending",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "feas-11",
+      "label": "Feasibility · proposal 12",
+      "phase": "Cross-examine",
+      "kind": "auditor",
+      "status": "pending",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "judge-0",
+      "label": "Judge 1 · NTU admissions",
+      "phase": "Judge",
+      "kind": "judge",
+      "status": "pending",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "judge-1",
+      "label": "Judge 2 · Palantir/Lockheed hiring",
+      "phase": "Judge",
+      "kind": "judge",
+      "status": "pending",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "judge-2",
+      "label": "Judge 3 · Exea reviewer",
+      "phase": "Judge",
+      "kind": "judge",
+      "status": "pending",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "judge-3",
+      "label": "Judge 4 · Senior ML researcher",
+      "phase": "Judge",
+      "kind": "judge",
+      "status": "pending",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "judge-4",
+      "label": "Judge 5 · Finish-it mentor",
+      "phase": "Judge",
+      "kind": "judge",
+      "status": "pending",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "champion-0",
+      "label": "Champion · finalist 1",
+      "phase": "Finals",
+      "kind": "champion",
+      "status": "pending",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "champion-1",
+      "label": "Champion · finalist 2",
+      "phase": "Finals",
+      "kind": "champion",
+      "status": "pending",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "champion-2",
+      "label": "Champion · finalist 3",
+      "phase": "Finals",
+      "kind": "champion",
+      "status": "pending",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    },
+    {
+      "id": "synthesize",
+      "label": "Final synthesis + report",
+      "phase": "Synthesize",
+      "kind": "synthesizer",
+      "status": "pending",
+      "title": null,
+      "score": null,
+      "elapsedMs": null,
+      "output": null
+    }
+  ],
+  "edges": [
+    [
+      "propose-efficiency",
+      "attack-0"
+    ],
+    [
+      "attack-0",
+      "feas-0"
+    ],
+    [
+      "feas-0",
+      "judge-0"
+    ],
+    [
+      "feas-0",
+      "judge-1"
+    ],
+    [
+      "feas-0",
+      "judge-2"
+    ],
+    [
+      "feas-0",
+      "judge-3"
+    ],
+    [
+      "feas-0",
+      "judge-4"
+    ],
+    [
+      "propose-bci",
+      "attack-1"
+    ],
+    [
+      "attack-1",
+      "feas-1"
+    ],
+    [
+      "feas-1",
+      "judge-0"
+    ],
+    [
+      "feas-1",
+      "judge-1"
+    ],
+    [
+      "feas-1",
+      "judge-2"
+    ],
+    [
+      "feas-1",
+      "judge-3"
+    ],
+    [
+      "feas-1",
+      "judge-4"
+    ],
+    [
+      "propose-agent-trust",
+      "attack-2"
+    ],
+    [
+      "attack-2",
+      "feas-2"
+    ],
+    [
+      "feas-2",
+      "judge-0"
+    ],
+    [
+      "feas-2",
+      "judge-1"
+    ],
+    [
+      "feas-2",
+      "judge-2"
+    ],
+    [
+      "feas-2",
+      "judge-3"
+    ],
+    [
+      "feas-2",
+      "judge-4"
+    ],
+    [
+      "propose-glasses",
+      "attack-3"
+    ],
+    [
+      "attack-3",
+      "feas-3"
+    ],
+    [
+      "feas-3",
+      "judge-0"
+    ],
+    [
+      "feas-3",
+      "judge-1"
+    ],
+    [
+      "feas-3",
+      "judge-2"
+    ],
+    [
+      "feas-3",
+      "judge-3"
+    ],
+    [
+      "feas-3",
+      "judge-4"
+    ],
+    [
+      "propose-markets",
+      "attack-4"
+    ],
+    [
+      "attack-4",
+      "feas-4"
+    ],
+    [
+      "feas-4",
+      "judge-0"
+    ],
+    [
+      "feas-4",
+      "judge-1"
+    ],
+    [
+      "feas-4",
+      "judge-2"
+    ],
+    [
+      "feas-4",
+      "judge-3"
+    ],
+    [
+      "feas-4",
+      "judge-4"
+    ],
+    [
+      "propose-edge-systems",
+      "attack-5"
+    ],
+    [
+      "attack-5",
+      "feas-5"
+    ],
+    [
+      "feas-5",
+      "judge-0"
+    ],
+    [
+      "feas-5",
+      "judge-1"
+    ],
+    [
+      "feas-5",
+      "judge-2"
+    ],
+    [
+      "feas-5",
+      "judge-3"
+    ],
+    [
+      "feas-5",
+      "judge-4"
+    ],
+    [
+      "propose-evals",
+      "attack-6"
+    ],
+    [
+      "attack-6",
+      "feas-6"
+    ],
+    [
+      "feas-6",
+      "judge-0"
+    ],
+    [
+      "feas-6",
+      "judge-1"
+    ],
+    [
+      "feas-6",
+      "judge-2"
+    ],
+    [
+      "feas-6",
+      "judge-3"
+    ],
+    [
+      "feas-6",
+      "judge-4"
+    ],
+    [
+      "propose-interp",
+      "attack-7"
+    ],
+    [
+      "attack-7",
+      "feas-7"
+    ],
+    [
+      "feas-7",
+      "judge-0"
+    ],
+    [
+      "feas-7",
+      "judge-1"
+    ],
+    [
+      "feas-7",
+      "judge-2"
+    ],
+    [
+      "feas-7",
+      "judge-3"
+    ],
+    [
+      "feas-7",
+      "judge-4"
+    ],
+    [
+      "propose-security-ml",
+      "attack-8"
+    ],
+    [
+      "attack-8",
+      "feas-8"
+    ],
+    [
+      "feas-8",
+      "judge-0"
+    ],
+    [
+      "feas-8",
+      "judge-1"
+    ],
+    [
+      "feas-8",
+      "judge-2"
+    ],
+    [
+      "feas-8",
+      "judge-3"
+    ],
+    [
+      "feas-8",
+      "judge-4"
+    ],
+    [
+      "propose-robotics",
+      "attack-9"
+    ],
+    [
+      "attack-9",
+      "feas-9"
+    ],
+    [
+      "feas-9",
+      "judge-0"
+    ],
+    [
+      "feas-9",
+      "judge-1"
+    ],
+    [
+      "feas-9",
+      "judge-2"
+    ],
+    [
+      "feas-9",
+      "judge-3"
+    ],
+    [
+      "feas-9",
+      "judge-4"
+    ],
+    [
+      "propose-data-centric",
+      "attack-10"
+    ],
+    [
+      "attack-10",
+      "feas-10"
+    ],
+    [
+      "feas-10",
+      "judge-0"
+    ],
+    [
+      "feas-10",
+      "judge-1"
+    ],
+    [
+      "feas-10",
+      "judge-2"
+    ],
+    [
+      "feas-10",
+      "judge-3"
+    ],
+    [
+      "feas-10",
+      "judge-4"
+    ],
+    [
+      "propose-heretic",
+      "attack-11"
+    ],
+    [
+      "attack-11",
+      "feas-11"
+    ],
+    [
+      "feas-11",
+      "judge-0"
+    ],
+    [
+      "feas-11",
+      "judge-1"
+    ],
+    [
+      "feas-11",
+      "judge-2"
+    ],
+    [
+      "feas-11",
+      "judge-3"
+    ],
+    [
+      "feas-11",
+      "judge-4"
+    ],
+    [
+      "judge-0",
+      "champion-0"
+    ],
+    [
+      "judge-0",
+      "champion-1"
+    ],
+    [
+      "judge-0",
+      "champion-2"
+    ],
+    [
+      "judge-1",
+      "champion-0"
+    ],
+    [
+      "judge-1",
+      "champion-1"
+    ],
+    [
+      "judge-1",
+      "champion-2"
+    ],
+    [
+      "judge-2",
+      "champion-0"
+    ],
+    [
+      "judge-2",
+      "champion-1"
+    ],
+    [
+      "judge-2",
+      "champion-2"
+    ],
+    [
+      "judge-3",
+      "champion-0"
+    ],
+    [
+      "judge-3",
+      "champion-1"
+    ],
+    [
+      "judge-3",
+      "champion-2"
+    ],
+    [
+      "judge-4",
+      "champion-0"
+    ],
+    [
+      "judge-4",
+      "champion-1"
+    ],
+    [
+      "judge-4",
+      "champion-2"
+    ],
+    [
+      "champion-0",
+      "synthesize"
+    ],
+    [
+      "champion-1",
+      "synthesize"
+    ],
+    [
+      "champion-2",
+      "synthesize"
+    ]
+  ]
+}
