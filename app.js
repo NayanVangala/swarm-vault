@@ -38,6 +38,76 @@ function kindColor(kind) {
 function kindRole(kind) {
   return KIND_ROLES[kind] || String(kind || 'agent').replace(/[-_]/g, ' ');
 }
+
+/* ================= force-layout + camera math (node-testable) ================= */
+function hashCode(s) {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
+  return Math.abs(h);
+}
+/* deterministic initial node position: phase columns, or a ring fallback */
+function seedNodePos(id, phase, idx, total) {
+  const pi = PHASES.indexOf(phase);
+  if (pi >= 0) {
+    return {
+      x: (pi - 2) * 300 + ((hashCode(id) % 90) - 45),
+      y: (idx - (total - 1) / 2) * 92 + ((hashCode(id + 'y') % 50) - 25),
+    };
+  }
+  const ang = (idx / Math.max(1, total)) * Math.PI * 2 - Math.PI / 2;
+  const r = 200 + (hashCode(id) % 120);
+  return { x: Math.cos(ang) * r, y: Math.sin(ang) * r };
+}
+/* one force-layout integration step over plain node objects {x,y,vx,vy,id};
+   edgePairs are [idA,idB]; byId maps id -> node. Nodes with n.pinned stay put. */
+function stepLayout(arr, edgePairs, byId) {
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = i + 1; j < arr.length; j++) {
+      const a = arr[i], b = arr[j];
+      let dx = a.x - b.x, dy = a.y - b.y;
+      let d2 = dx * dx + dy * dy;
+      if (d2 < 1) { dx = (i - j) || 1; dy = 0.5; d2 = 1; }
+      const d = Math.sqrt(d2);
+      const f = Math.min(2600 / d2, 2.2);
+      const fx = (dx / d) * f, fy = (dy / d) * f;
+      a.vx += fx; a.vy += fy; b.vx -= fx; b.vy -= fy;
+    }
+  }
+  for (const [f, t] of edgePairs) {
+    const a = byId.get(f), b = byId.get(t);
+    if (!a || !b) continue;
+    const dx = b.x - a.x, dy = b.y - a.y;
+    const d = Math.max(1, Math.hypot(dx, dy));
+    const rest = 118;
+    const fmag = (d - rest) * 0.012;
+    const fx = (dx / d) * fmag, fy = (dy / d) * fmag;
+    a.vx += fx; a.vy += fy; b.vx -= fx; b.vy -= fy;
+  }
+  for (const n of arr) {
+    n.vx += -n.x * 0.0016;
+    n.vy += -n.y * 0.0016;
+    if (n.pinned) { n.vx = 0; n.vy = 0; continue; }
+    n.vx *= 0.86; n.vy *= 0.86;
+    const sp = Math.hypot(n.vx, n.vy);
+    if (sp > 9) { n.vx = n.vx / sp * 9; n.vy = n.vy / sp * 9; }
+    n.x += n.vx; n.y += n.vy;
+  }
+}
+/* fit a world-space box into a WxH viewport with padPx of screen padding.
+   Returns {x, y, k} (canvas translate + scale) or null if it cannot fit. */
+function fitCameraForBox(W, H, box, padPx) {
+  if (!(W > 0) || !(H > 0)) return null;
+  const pad = Math.max(0, padPx || 0);
+  const bw = Math.max(80, box.maxX - box.minX);
+  const bh = Math.max(80, box.maxY - box.minY);
+  const k = Math.max(0.08, Math.min(3.2, Math.min((W - pad * 2) / bw, (H - pad * 2) / bh)));
+  if (!(k > 0)) return null;
+  return {
+    x: W / 2 - ((box.minX + box.maxX) / 2) * k,
+    y: H / 2 - ((box.minY + box.maxY) / 2) * k,
+    k,
+  };
+}
 function getWorkflow(store, id, create) {
   let wf = store.workflows.get(id);
   if (!wf && create) {
@@ -282,24 +352,8 @@ function initApp() {
     let hoverId = null, selectedNodeId = null, dragNode = null, dragMoved = false;
     let panning = false, lastPtr = null;
     let fitted = false;
-
-    function hashCode(s) {
-      let h = 0;
-      for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
-      return Math.abs(h);
-    }
-    function seedPos(id, phase, idx, total) {
-      const pi = PHASES.indexOf(phase);
-      if (pi >= 0) {
-        return {
-          x: (pi - 2) * 300 + ((hashCode(id) % 90) - 45),
-          y: (idx - (total - 1) / 2) * 92 + ((hashCode(id + 'y') % 50) - 25),
-        };
-      }
-      const ang = (idx / Math.max(1, total)) * Math.PI * 2 - Math.PI / 2;
-      const r = 200 + (hashCode(id) % 120);
-      return { x: Math.cos(ang) * r, y: Math.sin(ang) * r };
-    }
+    let pendingRefit = 0;   /* frames until the camera re-fits the settled layout */
+    let userMoved = false;  /* set on any manual pan/zoom: cancels the auto refit */
     function sync(agents, edgePairs) {
       edges = edgePairs.slice();
       const deg = new Map();
@@ -311,7 +365,7 @@ function initApp() {
         const idx = sibs.indexOf(a);
         let n = nodes.get(a.id);
         if (!n) {
-          const p = seedPos(a.id, a.phase, Math.max(0, idx), sibs.length);
+          const p = seedNodePos(a.id, a.phase, Math.max(0, idx), sibs.length);
           n = { id: a.id, x: p.x, y: p.y, vx: 0, vy: 0 };
           nodes.set(a.id, n);
         }
@@ -322,7 +376,9 @@ function initApp() {
         if (!agents.some(a => a.id === id)) nodes.delete(id);
       }
       buildLegend();
-      if (!fitted && agents.length) { fitted = true; fitView(); }
+      /* first render: fit now (seeded positions), then re-fit once the
+         force layout has settled so the whole swarm lands in frame */
+      if (!fitted && agents.length) { fitted = true; fitView(); pendingRefit = 150; }
     }
     function buildLegend() {
       const seen = new Map();
@@ -339,17 +395,30 @@ function initApp() {
       canvas.width = W * dpr; canvas.height = H * dpr;
       canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
     }
+    /* frame the actual node cloud: every node (plus label room) inside
+       the viewport with screen padding, centered on the cloud's middle */
     function fitView() {
       resize();
-      if (!W) return;
-      cam = { x: W / 2, y: H / 2, k: Math.min(1, Math.min(W / 1600, H / 1150) * 1.6) };
-      if (!(cam.k > 0)) cam.k = 0.6;
+      if (!W || !H) return;
+      let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+      let any = false;
+      nodes.forEach(n => {
+        any = true;
+        const pad = n.r + 30; /* node radius + room for its label */
+        if (n.x - pad < minX) minX = n.x - pad;
+        if (n.y - pad < minY) minY = n.y - pad;
+        if (n.x + pad > maxX) maxX = n.x + pad;
+        if (n.y + pad > maxY) maxY = n.y + pad;
+      });
+      if (!any) { cam = { x: W / 2, y: H / 2, k: 0.8 }; return; }
+      const c = fitCameraForBox(W, H, { minX, minY, maxX, maxY }, 56);
+      if (c) cam = c;
     }
     function resetLayout() {
       nodes.forEach(n => {
         const sibs = Array.from(nodes.values()).filter(m => (m.agent.phase || '') === (n.agent.phase || ''));
         const idx = sibs.findIndex(m => m.id === n.id);
-        const p = seedPos(n.id, n.agent.phase, Math.max(0, idx), sibs.length);
+        const p = seedNodePos(n.id, n.agent.phase, Math.max(0, idx), sibs.length);
         n.x = p.x; n.y = p.y; n.vx = 0; n.vy = 0;
       });
       fitView();
@@ -367,37 +436,8 @@ function initApp() {
     }
     function step() {
       const arr = Array.from(nodes.values());
-      for (let i = 0; i < arr.length; i++) {
-        for (let j = i + 1; j < arr.length; j++) {
-          const a = arr[i], b = arr[j];
-          let dx = a.x - b.x, dy = a.y - b.y;
-          let d2 = dx * dx + dy * dy;
-          if (d2 < 1) { dx = (i - j) || 1; dy = 0.5; d2 = 1; }
-          const d = Math.sqrt(d2);
-          const f = Math.min(2600 / d2, 2.2);
-          const fx = (dx / d) * f, fy = (dy / d) * f;
-          a.vx += fx; a.vy += fy; b.vx -= fx; b.vy -= fy;
-        }
-      }
-      for (const [f, t] of edges) {
-        const a = nodes.get(f), b = nodes.get(t);
-        if (!a || !b) continue;
-        const dx = b.x - a.x, dy = b.y - a.y;
-        const d = Math.max(1, Math.hypot(dx, dy));
-        const rest = 118;
-        const fmag = (d - rest) * 0.012;
-        const fx = (dx / d) * fmag, fy = (dy / d) * fmag;
-        a.vx += fx; a.vy += fy; b.vx -= fx; b.vy -= fy;
-      }
-      for (const n of arr) {
-        n.vx += -n.x * 0.0016;
-        n.vy += -n.y * 0.0016;
-        if (dragNode && dragNode.id === n.id) { n.vx = 0; n.vy = 0; continue; }
-        n.vx *= 0.86; n.vy *= 0.86;
-        const sp = Math.hypot(n.vx, n.vy);
-        if (sp > 9) { n.vx = n.vx / sp * 9; n.vy = n.vy / sp * 9; }
-        n.x += n.vx; n.y += n.vy;
-      }
+      for (const n of arr) n.pinned = !!(dragNode && dragNode.id === n.id);
+      stepLayout(arr, edges, nodes);
     }
     function drawCheck(x, y, r) {
       ctx.save();
@@ -495,6 +535,7 @@ function initApp() {
       return { x: e.clientX - r.left, y: e.clientY - r.top };
     }
     canvas.addEventListener('pointerdown', (e) => {
+      userMoved = true;
       focusedGraph = g;
       const p = ptrPos(e);
       lastPtr = p;
@@ -535,6 +576,7 @@ function initApp() {
     });
     canvas.addEventListener('wheel', (e) => {
       e.preventDefault();
+      userMoved = true;
       const p = ptrPos(e);
       const before = toWorld(p.x, p.y);
       zoomBy(e.deltaY < 0 ? 1.09 : 0.92);
@@ -545,14 +587,21 @@ function initApp() {
     window.addEventListener('resize', resize);
 
     const g = {
-      sync, resize, fitView, resetLayout, zoomBy, isVisible,
+      canvas, sync, resize, fitView, resetLayout, zoomBy, isVisible,
       setSelected(id) { selectedNodeId = id; },
-      tick(now) { step(); draw(now); },
+      tick(now) {
+        /* re-fit once the layout settles, unless the user already took the camera */
+        if (pendingRefit > 0 && !userMoved && --pendingRefit === 0) fitView();
+        step(); draw(now);
+      },
     };
     return g;
   }
   function ensureGraph(key, wfId, canvas) {
     let g = graphs.get(key);
+    /* archive tab switches rebuild the canvas element: a graph bound to the
+       old (detached) canvas must be recreated so it draws and fits the new one */
+    if (g && g.canvas !== canvas) { graphs.delete(key); g = null; }
     if (!g) {
       g = makeGraph(canvas, wfId);
       graphs.set(key, g);
