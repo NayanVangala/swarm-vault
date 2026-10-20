@@ -282,3 +282,4 @@
 {"event":"agent_spawned","workflow_id":"insight-build-plan","agent_id":"c030e13d-b617-418f-9f8f-a6fe12ea5ed9","name":"devpost-how","kind":"researcher","task_brief":"How-we-built-it honest architecture description","ts":"2026-10-19T18:16:00-07:00"}
 {"event":"agent_spawned","workflow_id":"insight-build-plan","agent_id":"78e5fb4a-0283-4615-bf64-dcb077d2a770","name":"devpost-what","kind":"researcher","task_brief":"What-it-does section as concrete user story","ts":"2026-10-19T18:16:00-07:00"}
 {"event":"agent_spawned","workflow_id":"insight-build-plan","agent_id":"c94f5703-5399-4583-a820-b226ee816363","name":"devpost-tagline","kind":"researcher","task_brief":"Tagline options + inspiration section","ts":"2026-10-19T18:16:00-07:00"}
+{"event":"agent_spawned","workflow_id":"insight-build-plan","agent_id":"1732fa8d-22fc-48a1-b68b-2532b9d21ae7","name":"devpost-video","kind":"researcher","task_brief":"60-90s demo video script + shot list","ts":"2026-10-19T18:16:00-07:00"}
