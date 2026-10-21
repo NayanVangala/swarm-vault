@@ -1,137 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>agent-ops — live swarm dashboard</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>swarm vault</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><circle cx='12' cy='12' r='9' fill='%23C9F73A'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Archivo+Black&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><circle cx='12' cy='12' r='9' fill='%23C9F73A'/></svg>">
 </head>
 <body>
 <div id="app">
-  <!-- RIBBON -->
-  <nav id="ribbon" aria-label="Ribbon">
-    <div class="ribbon-top">
-      <button class="ribbon-btn active" title="File explorer" data-tip="File explorer">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M9 13h6"/><path d="M9 17h6"/></svg>
-      </button>
-      <button class="ribbon-btn" id="ribbon-search" title="Search (quick switcher)" data-tip="Search">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      </button>
-      <button class="ribbon-btn" id="ribbon-graph" title="Live view" data-tip="Live view">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.59 13.51 6.83 3.98"/><path d="m15.41 6.51-6.82 3.98"/></svg>
-      </button>
-      <button class="ribbon-btn" title="Canvas" data-tip="Canvas">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
-      </button>
-      <button class="ribbon-btn" title="Bookmarks" data-tip="Bookmarks">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-      </button>
-    </div>
-    <div class="ribbon-bottom">
-      <button class="ribbon-btn" title="Settings" data-tip="Settings">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
-      </button>
-    </div>
-  </nav>
-
-  <!-- LEFT SIDEBAR -->
-  <aside id="left-sidebar">
-    <div class="vault-header">
-      <span class="vault-name">agent-ops</span>
-      <svg class="vault-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-    </div>
-    <div class="sidebar-search">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input id="tree-filter" type="text" placeholder="Search agents…" autocomplete="off" spellcheck="false">
-    </div>
-    <div class="tree-scroll">
-      <div id="file-tree"></div>
-    </div>
-  </aside>
-
-  <!-- MAIN -->
-  <main id="main">
-    <div id="tab-bar">
-      <div id="view-switch" role="tablist" aria-label="View">
-        <button data-view="live" class="active" title="Live agents"><span class="live-dot"></span>LIVE</button>
-        <button data-view="archive" title="Archived workflows">ARCHIVE</button>
+  <header id="hud">
+    <div class="wordmark">swarm vault</div>
+    <div id="search-mount">
+      <div class="search-wrap">
+        <svg class="search-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg>
+        <input id="search-input" type="text" placeholder="search swarms  (ctrl+k)" autocomplete="off" spellcheck="false">
+        <ul id="search-list" hidden></ul>
       </div>
-      <div id="tabs"></div>
-      <button id="new-tab-btn" title="Open agent (Ctrl+K)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-      </button>
-      <div class="tab-bar-spacer"></div>
-      <div id="graph-controls" class="view-controls">
-        <button id="zoom-out" title="Zoom out"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M8 11h6"/></svg></button>
-        <button id="zoom-in" title="Zoom in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></button>
-        <button id="zoom-reset" title="Reset layout"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg></button>
-      </div>
-      <button id="toggle-right" class="tab-bar-btn" title="Toggle right sidebar">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M15 3v18"/></svg>
-      </button>
     </div>
-    <div id="pane-container">
-      <section id="live-view">
-        <div id="ops-marquee" aria-hidden="true"><div class="marquee-track"><span>AGENT OPS ✦ LIVE SWARM ✦ EVERY AGENT VISIBLE ✦ CLICK A NODE TO INSPECT ✦ </span><span>AGENT OPS ✦ LIVE SWARM ✦ EVERY AGENT VISIBLE ✦ CLICK A NODE TO INSPECT ✦ </span></div></div>
-        <div id="live-list"></div>
-      </section>
-      <section id="archive-view" hidden>
-        <div id="archive-tabs"></div>
-        <div id="archive-body"></div>
-      </section>
-      <section id="note-pane" hidden>
-        <article id="note-content" class="markdown-preview-view"></article>
-      </section>
-    </div>
-  </main>
-
-  <!-- RIGHT SIDEBAR -->
-  <aside id="right-sidebar">
-    <div class="panel">
-      <div class="section-label">Agent detail</div>
-      <div id="agent-detail"><div class="detail-empty">Select an agent in the graph or file tree to inspect it.</div></div>
-    </div>
-    <div class="panel">
-      <div class="section-label">Run stats</div>
-      <div id="run-stats"></div>
-    </div>
-    <div class="panel">
-      <div class="section-label">Workflow</div>
-      <div id="workflow-info"><div class="detail-empty">Nothing selected.</div></div>
-    </div>
-  </aside>
+    <div class="hud-status"><span class="live-dot"></span><span id="hud-text">connecting</span></div>
+  </header>
+  <div id="stage">
+    <canvas id="grid"></canvas>
+    <div id="world-layer"></div>
+  </div>
+  <div id="swarm-mount"></div>
+  <footer id="statusbar">
+    <span class="sync-dot"></span>
+    <span id="status-text"></span>
+    <span id="status-totals"></span>
+  </footer>
 </div>
-
-<!-- STATUS BAR -->
-<footer id="status-bar">
-  <div class="status-left">
-    <span class="status-sync" id="status-sync-icon">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
-    </span>
-    <span id="status-text">Connecting…</span>
-  </div>
-  <div class="status-right">
-    <span id="status-poll">—</span>
-    <span class="status-sep"></span>
-    <span id="status-notes">0 notes</span>
-    <span class="status-sep"></span>
-    <span>Markdown</span>
-  </div>
-</footer>
-
-<!-- QUICK SWITCHER -->
-<div id="switcher-overlay" hidden>
-  <div id="switcher-modal">
-    <input id="switcher-input" type="text" placeholder="Type an agent name, kind, or workflow…" autocomplete="off" spellcheck="false">
-    <div id="switcher-list"></div>
-    <div class="switcher-footer"><span>↑↓ navigate</span><span>↵ open note</span><span>esc close</span></div>
-  </div>
-</div>
-
-<script src="app.js"></script>
+<script type="module" src="js/app.js"></script>
 </body>
 </html>
