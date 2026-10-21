@@ -17,8 +17,17 @@ python3 -c "import json,sys; json.loads(sys.argv[1])" "$LINE" || {
 
 cd "$(dirname "$0")"
 printf '%s\n' "$LINE" >> events.jsonl
-git add events.jsonl
 ETYPE=$(python3 -c "import json,sys; print(json.loads(sys.argv[1]).get('type','event'))" "$LINE")
+
+# Batch mode: when agent-ops/BATCH_MODE exists, append only; a separate
+# scheduled job commits and pushes once. This keeps one commit per batch
+# instead of one commit per event.
+if [ -f "$(dirname "$0")/BATCH_MODE" ]; then
+  echo "logged ${ETYPE} ($(wc -l < events.jsonl) events total) - batched, push deferred"
+  exit 0
+fi
+
+git add events.jsonl
 git commit -qm "agent-ops: ${ETYPE}"
 git push -q
 echo "logged ${ETYPE} ($(wc -l < events.jsonl) events total) + pushed"
